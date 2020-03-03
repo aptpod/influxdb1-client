@@ -4,7 +4,6 @@ package client
 
 import (
 	json "encoding/json"
-	models "github.com/aptpod/influxdb1-client/models"
 	easyjson "github.com/mailru/easyjson"
 	jlexer "github.com/mailru/easyjson/jlexer"
 	jwriter "github.com/mailru/easyjson/jwriter"
@@ -37,7 +36,7 @@ func easyjson6ff3ac1dDecodeGithubComAptpodInfluxdb1ClientV2(in *jlexer.Lexer, ou
 			continue
 		}
 		switch key {
-		case "Results":
+		case "results":
 			if in.IsNull() {
 				in.Skip()
 				out.Results = nil
@@ -54,7 +53,7 @@ func easyjson6ff3ac1dDecodeGithubComAptpodInfluxdb1ClientV2(in *jlexer.Lexer, ou
 				}
 				for !in.IsDelim(']') {
 					var v1 Result
-					easyjson6ff3ac1dDecodeGithubComAptpodInfluxdb1ClientV21(in, &v1)
+					(v1).UnmarshalEasyJSON(in)
 					out.Results = append(out.Results, v1)
 					in.WantComma()
 				}
@@ -77,7 +76,7 @@ func easyjson6ff3ac1dEncodeGithubComAptpodInfluxdb1ClientV2(out *jwriter.Writer,
 	first := true
 	_ = first
 	{
-		const prefix string = ",\"Results\":"
+		const prefix string = ",\"results\":"
 		out.RawString(prefix[1:])
 		if in.Results == nil && (out.Flags&jwriter.NilSliceAsEmpty) == 0 {
 			out.RawString("null")
@@ -87,7 +86,7 @@ func easyjson6ff3ac1dEncodeGithubComAptpodInfluxdb1ClientV2(out *jwriter.Writer,
 				if v2 > 0 {
 					out.RawByte(',')
 				}
-				easyjson6ff3ac1dEncodeGithubComAptpodInfluxdb1ClientV21(out, v3)
+				(v3).MarshalEasyJSON(out)
 			}
 			out.RawByte(']')
 		}
@@ -122,370 +121,4 @@ func (v *Response) UnmarshalJSON(data []byte) error {
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
 func (v *Response) UnmarshalEasyJSON(l *jlexer.Lexer) {
 	easyjson6ff3ac1dDecodeGithubComAptpodInfluxdb1ClientV2(l, v)
-}
-func easyjson6ff3ac1dDecodeGithubComAptpodInfluxdb1ClientV21(in *jlexer.Lexer, out *Result) {
-	isTopLevel := in.IsStart()
-	if in.IsNull() {
-		if isTopLevel {
-			in.Consumed()
-		}
-		in.Skip()
-		return
-	}
-	in.Delim('{')
-	for !in.IsDelim('}') {
-		key := in.UnsafeString()
-		in.WantColon()
-		if in.IsNull() {
-			in.Skip()
-			in.WantComma()
-			continue
-		}
-		switch key {
-		case "statement_id":
-			out.StatementId = int(in.Int())
-		case "Series":
-			if in.IsNull() {
-				in.Skip()
-				out.Series = nil
-			} else {
-				in.Delim('[')
-				if out.Series == nil {
-					if !in.IsDelim(']') {
-						out.Series = make([]models.Row, 0, 1)
-					} else {
-						out.Series = []models.Row{}
-					}
-				} else {
-					out.Series = (out.Series)[:0]
-				}
-				for !in.IsDelim(']') {
-					var v4 models.Row
-					easyjson6ff3ac1dDecodeGithubComAptpodInfluxdb1ClientModels(in, &v4)
-					out.Series = append(out.Series, v4)
-					in.WantComma()
-				}
-				in.Delim(']')
-			}
-		case "Messages":
-			if in.IsNull() {
-				in.Skip()
-				out.Messages = nil
-			} else {
-				in.Delim('[')
-				if out.Messages == nil {
-					if !in.IsDelim(']') {
-						out.Messages = make([]*Message, 0, 8)
-					} else {
-						out.Messages = []*Message{}
-					}
-				} else {
-					out.Messages = (out.Messages)[:0]
-				}
-				for !in.IsDelim(']') {
-					var v5 *Message
-					if in.IsNull() {
-						in.Skip()
-						v5 = nil
-					} else {
-						if v5 == nil {
-							v5 = new(Message)
-						}
-						(*v5).UnmarshalEasyJSON(in)
-					}
-					out.Messages = append(out.Messages, v5)
-					in.WantComma()
-				}
-				in.Delim(']')
-			}
-		case "error":
-			out.Err = string(in.String())
-		default:
-			in.SkipRecursive()
-		}
-		in.WantComma()
-	}
-	in.Delim('}')
-	if isTopLevel {
-		in.Consumed()
-	}
-}
-func easyjson6ff3ac1dEncodeGithubComAptpodInfluxdb1ClientV21(out *jwriter.Writer, in Result) {
-	out.RawByte('{')
-	first := true
-	_ = first
-	{
-		const prefix string = ",\"statement_id\":"
-		out.RawString(prefix[1:])
-		out.Int(int(in.StatementId))
-	}
-	{
-		const prefix string = ",\"Series\":"
-		out.RawString(prefix)
-		if in.Series == nil && (out.Flags&jwriter.NilSliceAsEmpty) == 0 {
-			out.RawString("null")
-		} else {
-			out.RawByte('[')
-			for v6, v7 := range in.Series {
-				if v6 > 0 {
-					out.RawByte(',')
-				}
-				easyjson6ff3ac1dEncodeGithubComAptpodInfluxdb1ClientModels(out, v7)
-			}
-			out.RawByte(']')
-		}
-	}
-	{
-		const prefix string = ",\"Messages\":"
-		out.RawString(prefix)
-		if in.Messages == nil && (out.Flags&jwriter.NilSliceAsEmpty) == 0 {
-			out.RawString("null")
-		} else {
-			out.RawByte('[')
-			for v8, v9 := range in.Messages {
-				if v8 > 0 {
-					out.RawByte(',')
-				}
-				if v9 == nil {
-					out.RawString("null")
-				} else {
-					(*v9).MarshalEasyJSON(out)
-				}
-			}
-			out.RawByte(']')
-		}
-	}
-	if in.Err != "" {
-		const prefix string = ",\"error\":"
-		out.RawString(prefix)
-		out.String(string(in.Err))
-	}
-	out.RawByte('}')
-}
-func easyjson6ff3ac1dDecodeGithubComAptpodInfluxdb1ClientModels(in *jlexer.Lexer, out *models.Row) {
-	isTopLevel := in.IsStart()
-	if in.IsNull() {
-		if isTopLevel {
-			in.Consumed()
-		}
-		in.Skip()
-		return
-	}
-	in.Delim('{')
-	for !in.IsDelim('}') {
-		key := in.UnsafeString()
-		in.WantColon()
-		if in.IsNull() {
-			in.Skip()
-			in.WantComma()
-			continue
-		}
-		switch key {
-		case "name":
-			out.Name = string(in.String())
-		case "tags":
-			if in.IsNull() {
-				in.Skip()
-			} else {
-				in.Delim('{')
-				if !in.IsDelim('}') {
-					out.Tags = make(map[string]string)
-				} else {
-					out.Tags = nil
-				}
-				for !in.IsDelim('}') {
-					key := string(in.String())
-					in.WantColon()
-					var v10 string
-					v10 = string(in.String())
-					(out.Tags)[key] = v10
-					in.WantComma()
-				}
-				in.Delim('}')
-			}
-		case "columns":
-			if in.IsNull() {
-				in.Skip()
-				out.Columns = nil
-			} else {
-				in.Delim('[')
-				if out.Columns == nil {
-					if !in.IsDelim(']') {
-						out.Columns = make([]string, 0, 4)
-					} else {
-						out.Columns = []string{}
-					}
-				} else {
-					out.Columns = (out.Columns)[:0]
-				}
-				for !in.IsDelim(']') {
-					var v11 string
-					v11 = string(in.String())
-					out.Columns = append(out.Columns, v11)
-					in.WantComma()
-				}
-				in.Delim(']')
-			}
-		case "values":
-			if in.IsNull() {
-				in.Skip()
-				out.Values = nil
-			} else {
-				in.Delim('[')
-				if out.Values == nil {
-					if !in.IsDelim(']') {
-						out.Values = make([][]interface{}, 0, 2)
-					} else {
-						out.Values = [][]interface{}{}
-					}
-				} else {
-					out.Values = (out.Values)[:0]
-				}
-				for !in.IsDelim(']') {
-					var v12 []interface{}
-					if in.IsNull() {
-						in.Skip()
-						v12 = nil
-					} else {
-						in.Delim('[')
-						if v12 == nil {
-							if !in.IsDelim(']') {
-								v12 = make([]interface{}, 0, 4)
-							} else {
-								v12 = []interface{}{}
-							}
-						} else {
-							v12 = (v12)[:0]
-						}
-						for !in.IsDelim(']') {
-							var v13 interface{}
-							if m, ok := v13.(easyjson.Unmarshaler); ok {
-								m.UnmarshalEasyJSON(in)
-							} else if m, ok := v13.(json.Unmarshaler); ok {
-								_ = m.UnmarshalJSON(in.Raw())
-							} else {
-								v13 = in.Interface()
-							}
-							v12 = append(v12, v13)
-							in.WantComma()
-						}
-						in.Delim(']')
-					}
-					out.Values = append(out.Values, v12)
-					in.WantComma()
-				}
-				in.Delim(']')
-			}
-		case "partial":
-			out.Partial = bool(in.Bool())
-		default:
-			in.SkipRecursive()
-		}
-		in.WantComma()
-	}
-	in.Delim('}')
-	if isTopLevel {
-		in.Consumed()
-	}
-}
-func easyjson6ff3ac1dEncodeGithubComAptpodInfluxdb1ClientModels(out *jwriter.Writer, in models.Row) {
-	out.RawByte('{')
-	first := true
-	_ = first
-	if in.Name != "" {
-		const prefix string = ",\"name\":"
-		first = false
-		out.RawString(prefix[1:])
-		out.String(string(in.Name))
-	}
-	if len(in.Tags) != 0 {
-		const prefix string = ",\"tags\":"
-		if first {
-			first = false
-			out.RawString(prefix[1:])
-		} else {
-			out.RawString(prefix)
-		}
-		{
-			out.RawByte('{')
-			v14First := true
-			for v14Name, v14Value := range in.Tags {
-				if v14First {
-					v14First = false
-				} else {
-					out.RawByte(',')
-				}
-				out.String(string(v14Name))
-				out.RawByte(':')
-				out.String(string(v14Value))
-			}
-			out.RawByte('}')
-		}
-	}
-	if len(in.Columns) != 0 {
-		const prefix string = ",\"columns\":"
-		if first {
-			first = false
-			out.RawString(prefix[1:])
-		} else {
-			out.RawString(prefix)
-		}
-		{
-			out.RawByte('[')
-			for v15, v16 := range in.Columns {
-				if v15 > 0 {
-					out.RawByte(',')
-				}
-				out.String(string(v16))
-			}
-			out.RawByte(']')
-		}
-	}
-	if len(in.Values) != 0 {
-		const prefix string = ",\"values\":"
-		if first {
-			first = false
-			out.RawString(prefix[1:])
-		} else {
-			out.RawString(prefix)
-		}
-		{
-			out.RawByte('[')
-			for v17, v18 := range in.Values {
-				if v17 > 0 {
-					out.RawByte(',')
-				}
-				if v18 == nil && (out.Flags&jwriter.NilSliceAsEmpty) == 0 {
-					out.RawString("null")
-				} else {
-					out.RawByte('[')
-					for v19, v20 := range v18 {
-						if v19 > 0 {
-							out.RawByte(',')
-						}
-						if m, ok := v20.(easyjson.Marshaler); ok {
-							m.MarshalEasyJSON(out)
-						} else if m, ok := v20.(json.Marshaler); ok {
-							out.Raw(m.MarshalJSON())
-						} else {
-							out.Raw(json.Marshal(v20))
-						}
-					}
-					out.RawByte(']')
-				}
-			}
-			out.RawByte(']')
-		}
-	}
-	if in.Partial {
-		const prefix string = ",\"partial\":"
-		if first {
-			first = false
-			out.RawString(prefix[1:])
-		} else {
-			out.RawString(prefix)
-		}
-		out.Bool(bool(in.Partial))
-	}
-	out.RawByte('}')
 }

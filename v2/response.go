@@ -6,8 +6,8 @@ import "errors"
 //go:generate easyjson -all ./${GOFILE}
 // Response represents a list of statement results.
 type Response struct {
-	Results []Result
-	Err     string `json:"error,omitempty"`
+	Results []Result `json:"results"`
+	Err     string   `json:"error,omitempty"`
 }
 
 // Error returns the first error from any statement.

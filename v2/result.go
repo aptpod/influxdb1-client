@@ -6,8 +6,8 @@ import "github.com/aptpod/influxdb1-client/models"
 //go:generate easyjson -all ./${GOFILE}
 // Result represents a resultset returned from a single statement.
 type Result struct {
-	StatementId int `json:"statement_id"`
-	Series      []models.Row
-	Messages    []*Message
-	Err         string `json:"error,omitempty"`
+	StatementId int          `json:"statement_id"`
+	Series      []models.Row `json:"series"`
+	Messages    []*Message   `json:"messages"`
+	Err         string       `json:"error,omitempty"`
 }

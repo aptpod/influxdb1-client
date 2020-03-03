@@ -36,9 +36,9 @@ func easyjson4086215fDecodeGithubComAptpodInfluxdb1ClientV2(in *jlexer.Lexer, ou
 			continue
 		}
 		switch key {
-		case "Level":
+		case "level":
 			out.Level = string(in.String())
-		case "Text":
+		case "text":
 			out.Text = string(in.String())
 		default:
 			in.SkipRecursive()
@@ -55,12 +55,12 @@ func easyjson4086215fEncodeGithubComAptpodInfluxdb1ClientV2(out *jwriter.Writer,
 	first := true
 	_ = first
 	{
-		const prefix string = ",\"Level\":"
+		const prefix string = ",\"level\":"
 		out.RawString(prefix[1:])
 		out.String(string(in.Level))
 	}
 	{
-		const prefix string = ",\"Text\":"
+		const prefix string = ",\"text\":"
 		out.RawString(prefix)
 		out.String(string(in.Text))
 	}
