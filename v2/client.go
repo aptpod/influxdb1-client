@@ -4,7 +4,6 @@ package client // import "github.com/influxdata/influxdb1-client/v2"
 import (
 	"bytes"
 	"crypto/tls"
-	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
@@ -16,6 +15,8 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	json "github.com/intel-go/fastjson"
 
 	"github.com/influxdata/influxdb1-client/models"
 )
@@ -710,7 +711,7 @@ func (r *ChunkedResponse) NextResponse() (*Response, error) {
 		// and sent a last-ditch error message to us. Ensure we have read the
 		// entirety of the connection to get any remaining error text.
 		io.Copy(ioutil.Discard, r.duplex)
-		return nil, errors.New(strings.TrimSpace(r.buf.String()))
+		return nil, fmt.Errorf("%s : %w", strings.TrimSpace(r.buf.String()), err)
 	}
 
 	r.buf.Reset()
