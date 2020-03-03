@@ -465,40 +465,6 @@ func NewQueryWithParameters(command, database, precision string, parameters map[
 	}
 }
 
-// Response represents a list of statement results.
-type Response struct {
-	Results []Result
-	Err     string `json:"error,omitempty"`
-}
-
-// Error returns the first error from any statement.
-// It returns nil if no errors occurred on any statements.
-func (r *Response) Error() error {
-	if r.Err != "" {
-		return errors.New(r.Err)
-	}
-	for _, result := range r.Results {
-		if result.Err != "" {
-			return errors.New(result.Err)
-		}
-	}
-	return nil
-}
-
-// Message represents a user message.
-type Message struct {
-	Level string
-	Text  string
-}
-
-// Result represents a resultset returned from a single statement.
-type Result struct {
-	StatementId int `json:"statement_id"`
-	Series      []models.Row
-	Messages    []*Message
-	Err         string `json:"error,omitempty"`
-}
-
 // Query sends a command to the server and returns the Response.
 func (c *client) Query(q Query) (*Response, error) {
 	req, err := c.createDefaultRequest(q)

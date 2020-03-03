@@ -4,6 +4,7 @@ import (
 	"sort"
 )
 
+//go:generate easyjson -all ./${GOFILE}
 // Row represents a single row returned from the execution of a statement.
 type Row struct {
 	Name    string            `json:"name,omitempty"`
